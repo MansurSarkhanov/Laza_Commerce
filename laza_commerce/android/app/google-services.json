@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1092153259217",
+    "project_id": "laza-commerce",
+    "storage_bucket": "laza-commerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092153259217:android:9a140f59d16109ab3141f0",
+        "android_client_info": {
+          "package_name": "com.example.laza_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7mpvzNmLvuN8nONEmMeF4xAjzuCl1a88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
