@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:laza_commerce/Feature/Screens/Splash/splash_page.dart';
+import 'package:flutter/services.dart';
+import 'package:laza_commerce/Feature/Screens/SignIn/signin_page.dart';
 
 import 'firebase_options.dart';
 
@@ -15,15 +16,20 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Laza Commerce',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashPage(),
+      home: SignInPage(),
     );
   }
 }
