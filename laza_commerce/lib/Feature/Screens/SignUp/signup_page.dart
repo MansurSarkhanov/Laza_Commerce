@@ -1,16 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laza_commerce/Core/Service/firebase_service.dart';
+import 'package:laza_commerce/Product/Utility/Picker/image_pick.dart';
 
 import '../../Components/Buttons/auth_button.dart';
 import '../../Components/Inputs/custom_textfield.dart';
+import '../../Components/remember_me.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController usernameController = TextEditingController();
+
   TextEditingController passController = TextEditingController();
+
   final provider = FirebaseService();
+  final pick = ImagePick();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +66,21 @@ class SignUpPage extends StatelessWidget {
                 const Spacer(),
                 Column(
                   children: [
+                    InkWell(
+                      onTap: () {
+                        pick.pickImageGallery();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
+                        child: const Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Icon(
+                            Icons.add_a_photo_outlined,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
                     CustomTextField(
                       controller: usernameController,
                       labelText: 'Username',
@@ -75,21 +102,7 @@ class SignUpPage extends StatelessWidget {
                     const SizedBox(
                       height: 40,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Remember me",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 30,
-                          width: 45,
-                          child:
-                              FittedBox(fit: BoxFit.fill, child: CupertinoSwitch(value: false, onChanged: (value) {})),
-                        )
-                      ],
-                    )
+                    const RememberMe()
                   ],
                 ),
                 const Spacer(),
