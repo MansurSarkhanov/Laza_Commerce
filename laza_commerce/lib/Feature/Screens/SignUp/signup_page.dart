@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laza_commerce/Core/Service/firebase_service.dart';
-import 'package:laza_commerce/Product/Utility/Picker/image_pick.dart';
+import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
 
 import '../../Components/Buttons/auth_button.dart';
 import '../../Components/Inputs/custom_textfield.dart';
@@ -21,17 +21,21 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passController = TextEditingController();
 
   final provider = FirebaseService();
-  final pick = ImagePick();
-
+  final storage = FirebaseStorageService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: AuthButton(
-          buttonText: "Sign Up",
-          provider: provider,
-          email: emailController.text,
-          password: passController.text,
-          username: usernameController.text),
+        onTap: () {
+          storage.uploadImage();
+          // provider.signUpUser(
+          // email: emailController.text,
+          // password: passController.text,
+          // username: usernameController.text);
+        },
+        buttonText: "Sign Up",
+        provider: provider,
+      ),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height - 100,
@@ -68,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        pick.pickImageGallery();
+                        storage.pickImage();
                       },
                       child: Container(
                         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),

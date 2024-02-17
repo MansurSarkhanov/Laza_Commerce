@@ -7,28 +7,19 @@ class AuthButton extends StatelessWidget {
   const AuthButton({
     super.key,
     required this.provider,
-    required this.email,
-    required this.password,
-    required this.username,
+   
     required this.buttonText,
+    required this.onTap,
   });
 
   final FirebaseService provider;
-  final String email;
-  final String password;
-  final String username;
+ 
   final String buttonText;
-
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          provider.signUpUser(
-            email: email,
-            password: password,
-            username: username,
-          );
-        },
+        onTap: onTap,
         child: Container(
             color: AppColors.primaryColor,
             height: 75,
