@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laza_commerce/Product/Constants/Paths/image_path.dart';
 import 'package:laza_commerce/Product/Utility/Picker/image_pick.dart';
 
 class FirebaseStorageService {
@@ -8,15 +9,22 @@ class FirebaseStorageService {
   final picker = ImagePick();
   XFile? selectedFile;
   Uint8List? selectedImgeByte;
+  String imageUrl = ImagePath().emptyImageUrl;
 
-  Future<void> uploadImage() async {
+  Future<String?> uploadImage() async {
+    print(selectedImgeByte);
     if (selectedImgeByte != null) {
-      final resultImage = await firebaseStorageRef
-          .child(selectedFile!.name)
-          .putData(selectedImgeByte!, SettableMetadata(contentType: 'image/png'));
-
+      final uploadImage = await firebaseStorageRef.child('images').child('profile').child(selectedFile!.name).putData(
+            selectedImgeByte!,
+            SettableMetadata(contentType: 'image/png'),
+          );
+      imageUrl = await uploadImage.ref.getDownloadURL();
       print(selectedImgeByte);
+      print(imageUrl);
+      return imageUrl;
+  
     }
+    return null;
   }
 
   Future<void> pickImage() async {

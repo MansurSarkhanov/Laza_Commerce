@@ -26,8 +26,20 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: AuthButton(
-        onTap: () {
-          storage.uploadImage();
+        onTap: () async {
+          await storage.uploadImage();
+          print(storage.imageUrl);
+          provider.signUpUser(
+              email: emailController.text,
+              password: passController.text,
+              username: usernameController.text,
+              imageUrl: storage.imageUrl);
+
+          // await provider.signUpUser(
+          //     email: emailController.text,
+          //     password: passController.text,
+          //     username: usernameController.text,
+          //     imageUrl: storage.imageUrl);
           // provider.signUpUser(
           // email: emailController.text,
           // password: passController.text,
