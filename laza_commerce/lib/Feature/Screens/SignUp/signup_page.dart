@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
-import 'package:laza_commerce/Feature/Components/remember_me.dart';
 import 'package:laza_commerce/Product/Constants/app_colors.dart';
 
 import '../../../Core/Bloc/SignUp/sign_up_cubit.dart';
@@ -16,6 +16,7 @@ class SignUpPage extends StatefulWidget {
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
+
 class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
@@ -23,7 +24,7 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
   final storage = FirebaseStorageService();
   @override
   Widget build(BuildContext context) {
-
+    print('sdfsf');
     return Scaffold(
       bottomNavigationBar: AuthButton(
         onTap: () async {
@@ -42,8 +43,8 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
             showDialog(
               context: context,
               builder: (context) {
-                return const AlertDialog(
-                  title: Text("error"),
+                return AlertDialog(
+                  title: Text(state.message),
                 );
               },
             );
@@ -53,15 +54,6 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
                 return const HomePage();
               },
             ));
-          } else if (state is SignUpProgress) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: CircularProgressIndicator(),
-                );
-              },
-            );
           }
         },
         builder: (context, state) {
@@ -130,15 +122,15 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
                               : Container(
                                   height: 75,
                                   width: 75,
-                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
-                            child: const Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Icon(
-                                Icons.add_a_photo_outlined,
-                                size: 30,
-                              ),
-                            ),
-                          ),
+                                  decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: Icon(
+                                      Icons.add_a_photo_outlined,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
                         ),
                         CustomTextField(
                           controller: usernameController,
@@ -161,7 +153,27 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
                         const SizedBox(
                           height: 40,
                         ),
-                        RememberMe(isRemember: isRemember, onChanged: rememberMe)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Remember me",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(
+                              height: 30,
+                              width: 45,
+                              child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: CupertinoSwitch(
+                                      activeColor: AppColors.primaryColor,
+                                      value: context.watch<SignUpCubit>().isRemember,
+                                      onChanged: (value) {
+                                        context.read<SignUpCubit>().rememberMe(value);
+                                      })),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                     const Spacer(),

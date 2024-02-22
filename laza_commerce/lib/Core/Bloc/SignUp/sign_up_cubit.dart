@@ -12,8 +12,16 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(SignUpProgress());
     final registerUser =
         await authRepository.signUpUser(email: email, password: password, username: usernmae, imageUrl: imageUrl);
-    emit(SignUpSuccess());
+    if (registerUser.isSuccess()) {
+      emit(SignUpSuccess());
+    } else if (registerUser.isError()) {
+      emit(SignUpFailure(message: "Auth Error"));
+    }
   }
 
-
+  bool isRemember = false;
+  void rememberMe(bool value) {
+    isRemember = value;
+    emit(SignUpInitial(isRemember: isRemember));
+  }
 }
