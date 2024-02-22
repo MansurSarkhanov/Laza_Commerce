@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_commerce/Core/DI/injection.dart';
-import 'package:laza_commerce/Feature/Screens/SignUp/signup_page.dart';
 
+import 'Core/Bloc/SignIn/sign_in_cubit.dart';
 import 'Core/Bloc/SignUp/sign_up_cubit.dart';
+import 'Feature/Screens/Start/start_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -27,14 +28,17 @@ class MyApp extends StatelessWidget {
     ));
     return BlocProvider(
       create: (context) => SignUpCubit(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Laza Commerce',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: BlocProvider(
+        create: (context) => SignInCubit(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Laza Commerce',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const StartPage(),
         ),
-        home: const SignUpPage(),
       ),
     );
   }

@@ -15,7 +15,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (registerUser.isSuccess()) {
       emit(SignUpSuccess());
     } else if (registerUser.isError()) {
-      emit(SignUpFailure(message: "Auth Error"));
+      final response = registerUser.tryGetError();
+      emit(SignUpFailure(message: response!.message));
     }
   }
 

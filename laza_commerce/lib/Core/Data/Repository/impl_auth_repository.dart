@@ -31,8 +31,8 @@ class ImplAuthRepository implements IAuthRepository {
         }
       }
       return Success(user!);
-    } catch (e) {
-      return Error(FailureModel(message: 'Error'));
+    } on FirebaseAuthException catch (e) {
+      return Error(FailureModel(message: e.message ?? 'Error'));
     }
   }
 }

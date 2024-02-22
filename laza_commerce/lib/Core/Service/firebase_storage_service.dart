@@ -12,15 +12,12 @@ class FirebaseStorageService {
   String imageUrl = ImagePath().emptyImageUrl;
 
   Future<String?> uploadImage() async {
-    print(selectedImgeByte);
     if (selectedImgeByte != null) {
       final uploadImage = await firebaseStorageRef.child('images').child('profile').child(selectedFile!.name).putData(
             selectedImgeByte!,
             SettableMetadata(contentType: 'image/png'),
           );
       imageUrl = await uploadImage.ref.getDownloadURL();
-      print(selectedImgeByte);
-      print(imageUrl);
       return imageUrl;
   
     }
@@ -30,6 +27,5 @@ class FirebaseStorageService {
   Future<void> pickImage() async {
     selectedFile = await picker.pickImageGallery();
     selectedImgeByte = await selectedFile?.readAsBytes();
-    print(selectedImgeByte);
   }
 }
