@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:laza_commerce/Core/Service/firebase_service.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
+import 'package:laza_commerce/Feature/Components/remember_me.dart';
+import 'package:laza_commerce/Product/Constants/app_colors.dart';
 
 import '../../../Core/Bloc/SignUp/sign_up_cubit.dart';
+import '../../../Product/Utility/Mixin/signup_state_mixin.dart';
 import '../../Components/Buttons/auth_button.dart';
 import '../../Components/Inputs/custom_textfield.dart';
-import '../../Components/remember_me.dart';
 import '../Home/home_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -15,18 +16,14 @@ class SignUpPage extends StatefulWidget {
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
-
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
   TextEditingController emailController = TextEditingController();
-
   TextEditingController usernameController = TextEditingController();
-
   TextEditingController passController = TextEditingController();
-
-  final provider = FirebaseService();
   final storage = FirebaseStorageService();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       bottomNavigationBar: AuthButton(
         onTap: () async {
@@ -36,18 +33,8 @@ class _SignUpPageState extends State<SignUpPage> {
               password: passController.text,
               usernmae: usernameController.text,
               imageUrl: storage.imageUrl);
-          // await provider.signUpUser(
-          //     email: emailController.text,
-          //     password: passController.text,
-          //     username: usernameController.text,
-          //     imageUrl: storage.imageUrl);
-          // provider.signUpUser(
-          // email: emailController.text,
-          // password: passController.text,
-          // username: usernameController.text);
         },
         buttonText: "Sign Up",
-        provider: provider,
       ),
       body: BlocConsumer<SignUpCubit, SignUpState>(
         listener: (context, state) {
@@ -113,10 +100,36 @@ class _SignUpPageState extends State<SignUpPage> {
                     Column(
                       children: [
                         InkWell(
-                          onTap: () {
-                            storage.pickImage();
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onTap: () async {
+                            await storage.pickImage();
+
+                            setState(() {});
                           },
-                          child: Container(
+                          child: storage.selectedFile != null
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, border: Border.all(color: AppColors.primaryColor)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 75,
+                                      width: 75,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: MemoryImage(
+                                                storage.selectedImgeByte!,
+                                              )),
+                                          color: const Color.fromARGB(255, 223, 223, 225),
+                                          shape: BoxShape.circle),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height: 75,
+                                  width: 75,
                             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
                             child: const Padding(
                               padding: EdgeInsets.all(20.0),
@@ -148,7 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 40,
                         ),
-                        const RememberMe()
+                        RememberMe(isRemember: isRemember, onChanged: rememberMe)
                       ],
                     ),
                     const Spacer(),

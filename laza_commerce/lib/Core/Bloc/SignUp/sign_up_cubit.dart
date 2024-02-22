@@ -14,4 +14,6 @@ class SignUpCubit extends Cubit<SignUpState> {
         await authRepository.signUpUser(email: email, password: password, username: usernmae, imageUrl: imageUrl);
     emit(SignUpSuccess());
   }
+
+
 }
