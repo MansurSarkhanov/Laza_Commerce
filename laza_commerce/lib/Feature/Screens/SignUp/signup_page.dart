@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kartal/kartal.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
 import 'package:laza_commerce/Product/Constants/app_colors.dart';
 
@@ -69,7 +70,11 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
                     Align(
                       alignment: Alignment.topLeft,
                       child: InkWell(
-                        onTap: () {},
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          context.route.pop();
+                        },
                         child: Container(
                           decoration:
                               const BoxDecoration(color: Color.fromARGB(255, 223, 223, 225), shape: BoxShape.circle),

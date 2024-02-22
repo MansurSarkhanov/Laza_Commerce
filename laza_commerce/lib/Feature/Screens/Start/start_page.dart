@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
+import 'package:laza_commerce/Feature/Screens/SignIn/signin_page.dart';
+import 'package:laza_commerce/Feature/Screens/SignUp/signup_page.dart';
 
 import '../../Components/Buttons/auth_button.dart';
 
@@ -18,7 +21,9 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: AuthButton(
-          onTap: () {},
+          onTap: () {
+            context.route.navigateToPage(const SignUpPage());
+          },
           buttonText: "Create an Account",
         ),
         body: SingleChildScrollView(
@@ -56,7 +61,7 @@ class _StartPageState extends State<StartPage> {
                                 ),
                                 const Text(
                                   'Google',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -72,9 +77,16 @@ class _StartPageState extends State<StartPage> {
                       Text(
                         "Already have an account? ",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13, color: Colors.grey.shade400),
+                        style: TextStyle(fontSize: 15, color: Colors.grey.shade400),
                       ),
-                      TextButton(onPressed: () {}, child: const Text('Signin'))
+                      TextButton(
+                          onPressed: () {
+                            context.route.navigateToPage(const SignInPage());
+                          },
+                          child: const Text(
+                            'Signin',
+                            style: TextStyle(fontSize: 15),
+                          ))
                     ],
                   ),
                 ],
