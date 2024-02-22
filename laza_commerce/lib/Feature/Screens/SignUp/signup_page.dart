@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_commerce/Core/Service/firebase_service.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
 
+import '../../../Core/Bloc/SignUp/sign_up_cubit.dart';
 import '../../Components/Buttons/auth_button.dart';
 import '../../Components/Inputs/custom_textfield.dart';
 import '../../Components/remember_me.dart';
+import '../Home/home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -28,13 +31,11 @@ class _SignUpPageState extends State<SignUpPage> {
       bottomNavigationBar: AuthButton(
         onTap: () async {
           await storage.uploadImage();
-          print(storage.imageUrl);
-          provider.signUpUser(
+          context.read<SignUpCubit>().signUp(
               email: emailController.text,
               password: passController.text,
-              username: usernameController.text,
+              usernmae: usernameController.text,
               imageUrl: storage.imageUrl);
-
           // await provider.signUpUser(
           //     email: emailController.text,
           //     password: passController.text,
@@ -48,84 +49,115 @@ class _SignUpPageState extends State<SignUpPage> {
         buttonText: "Sign Up",
         provider: provider,
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 100,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      decoration:
-                          const BoxDecoration(color: Color.fromARGB(255, 223, 223, 225), shape: BoxShape.circle),
-                      child: const Padding(
-                        padding: EdgeInsets.all(14.0),
-                        child: Icon(Icons.arrow_back),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "Sign Up",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
-                ),
-                const Spacer(),
-                Column(
+      body: BlocConsumer<SignUpCubit, SignUpState>(
+        listener: (context, state) {
+          if (state is SignUpFailure) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: Text("error"),
+                );
+              },
+            );
+          } else if (state is SignUpSuccess) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return const HomePage();
+              },
+            ));
+          } else if (state is SignUpProgress) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: CircularProgressIndicator(),
+                );
+              },
+            );
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 100,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        storage.pickImage();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: Icon(
-                            Icons.add_a_photo_outlined,
-                            size: 30,
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          decoration:
+                              const BoxDecoration(color: Color.fromARGB(255, 223, 223, 225), shape: BoxShape.circle),
+                          child: const Padding(
+                            padding: EdgeInsets.all(14.0),
+                            child: Icon(Icons.arrow_back),
                           ),
                         ),
                       ),
                     ),
-                    CustomTextField(
-                      controller: usernameController,
-                      labelText: 'Username',
-                    ),
                     const SizedBox(
                       height: 20,
                     ),
-                    CustomTextField(
-                      controller: emailController,
-                      labelText: 'Email Address',
+                    const Text(
+                      "Sign Up",
+                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    const Spacer(),
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            storage.pickImage();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
+                            child: const Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Icon(
+                                Icons.add_a_photo_outlined,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                        CustomTextField(
+                          controller: usernameController,
+                          labelText: 'Username',
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          controller: emailController,
+                          labelText: 'Email Address',
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          controller: passController,
+                          labelText: 'Password',
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        const RememberMe()
+                      ],
                     ),
-                    CustomTextField(
-                      controller: passController,
-                      labelText: 'Password',
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    const RememberMe()
+                    const Spacer(),
                   ],
                 ),
-                const Spacer(),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
