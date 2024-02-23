@@ -139,7 +139,9 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     const Spacer(),
 
-                    GoogleSignButton(onPress: () => context.read<SignInCubit>().signInGoogle()),
+                    GoogleSignButton(
+                        isLoading: context.watch<SignInCubit>().isLoading,
+                        onPress: () => context.read<SignInCubit>().signInGoogle()),
                     const Spacer(),
                     Text(
                       "By connecting your account confirm that you agree with our Term and Condition",

@@ -56,4 +56,14 @@ class ImplAuthRepository implements IAuthRepository {
       return Error(FailureModel(message: e.message ?? 'Error'));
     }
   }
+
+  @override
+  Future<Result<User, FailureModel>> signInUser({required String email, required String password}) async {
+    try {
+      final user = await _authService.signInUser(email, password);
+      return Success(user!);
+    } on FirebaseAuthException catch (e) {
+      return Error(FailureModel(message: e.message ?? "Error"));
+    }
+  }
 }

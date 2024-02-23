@@ -4,7 +4,11 @@ abstract class SignInState {}
 
 final class SignInInitial extends SignInState {}
 
-final class SignInProgress extends SignInState {}
+final class SignInProgress extends SignInState {
+  final bool? isProgress;
+
+  SignInProgress({this.isProgress});
+}
 
 final class SignInSuccess extends SignInState {}
 

@@ -22,4 +22,10 @@ class AuthDataService {
     }
     return null;
   }
+
+  Future<User?> signInUser(String email, String password) async {
+    final credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    final user = credential.user;
+    return user;
+  }
 }
