@@ -29,6 +29,7 @@ class _SignUpPageState extends State<SignUpPage> with SignUpStateMixin {
       bottomNavigationBar: AuthButton(
         onTap: () async {
           await storage.uploadImage();
+         
           context.read<SignUpCubit>().signUp(
               email: emailController.text,
               password: passController.text,

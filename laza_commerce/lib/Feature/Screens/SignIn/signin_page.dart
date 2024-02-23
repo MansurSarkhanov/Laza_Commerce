@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
 import 'package:laza_commerce/Core/Bloc/SignIn/sign_in_cubit.dart';
 import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
+import 'package:laza_commerce/Feature/Components/Buttons/google_sign_button.dart';
 import 'package:laza_commerce/Product/Constants/app_colors.dart';
 
 import '../../../Core/Bloc/SignUp/sign_up_cubit.dart';
@@ -40,7 +41,7 @@ class _SignInPageState extends State<SignInPage> {
                 );
               },
             );
-          } else if (state is SignUpSuccess) {
+          } else if (state is SignInSuccess) {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
                 return const HomePage();
@@ -129,11 +130,16 @@ class _SignInPageState extends State<SignInPage> {
                                       onChanged: (value) {
                                         context.read<SignUpCubit>().rememberMe(value);
                                       })),
-                            )
+                            ),
                           ],
                         ),
+
+
                       ],
                     ),
+                    const Spacer(),
+
+                    GoogleSignButton(onPress: () => context.read<SignInCubit>().signInGoogle()),
                     const Spacer(),
                     Text(
                       "By connecting your account confirm that you agree with our Term and Condition",

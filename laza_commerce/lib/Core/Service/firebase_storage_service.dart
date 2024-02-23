@@ -9,7 +9,7 @@ class FirebaseStorageService {
   final picker = ImagePick();
   XFile? selectedFile;
   Uint8List? selectedImgeByte;
-  String imageUrl = ImagePath().emptyImageUrl;
+  String imageUrl = ImagePath.emptyImageUrl;
 
   Future<String?> uploadImage() async {
     if (selectedImgeByte != null) {
