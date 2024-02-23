@@ -1,9 +1,19 @@
-final class IconPath {
-  static const String google = 'assets/Icons/ic_google.png';
-  static const String home = 'assets/Icons/ic_home.svg';
-  static const String favorite = 'assets/Icons/ic_favorite.svg';
-  static const String bag = 'assets/Icons/ic_bag.svg';
-  static const String product = 'assets/Icons/ic_product.svg';
+enum IconPath {
+  google,
+  home,
+  favorite,
+  bag,
+  product,
+  menu,
+  search,
+}
 
+extension IconPathExtension on IconPath {
+  String toPathSvg() {
+    return 'assets/Icons/ic_$name.svg';
+  }
 
+  String toPathPng() {
+    return 'assets/Icons/ic_$name.png';
+  }
 }

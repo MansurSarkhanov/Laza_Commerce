@@ -21,7 +21,7 @@ class GoogleSignButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                IconPath.google,
+                      IconPath.google.toPathPng(),
                 width: 20,
               ),
               const SizedBox(
