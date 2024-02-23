@@ -6,7 +6,7 @@ import 'package:laza_commerce/Core/DI/injection.dart';
 
 import 'Core/Bloc/SignIn/sign_in_cubit.dart';
 import 'Core/Bloc/SignUp/sign_up_cubit.dart';
-import 'Feature/Screens/Start/start_page.dart';
+import 'Feature/Screens/Home/home_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const StartPage(),
+          home: const HomePage(),
         ),
       ),
     );

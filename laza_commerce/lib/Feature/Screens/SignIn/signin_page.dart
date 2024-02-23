@@ -27,12 +27,12 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: AuthButton(
-        onTap: () {},
+        onTap: () => context.read<SignInCubit>().signIn(email: emailController.text, password: passController.text),
         buttonText: "Login",
       ),
       body: BlocConsumer<SignInCubit, SignInState>(
         listener: (context, state) {
-          if (state is SignUpFailure) {
+          if (state is SignInFailure) {
             showDialog(
               context: context,
               builder: (context) {

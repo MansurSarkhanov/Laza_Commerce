@@ -10,16 +10,16 @@ class SignInCubit extends Cubit<SignInState> {
   bool isLoading = false;
   Future<void> signInGoogle() async {
     isLoading = true;
-
     emit(SignInProgress());
     final result = await authRepository.signInWithGoogle();
     if (result.isSuccess()) {
       print('sdf');
       isLoading = false;
-
       emit(SignInSuccess());
     } else if (result.isError()) {
       final response = result.tryGetError();
+      isLoading = false;
+
       emit(SignInFailure(message: response!.message));
     }
   }
@@ -35,6 +35,8 @@ class SignInCubit extends Cubit<SignInState> {
       emit(SignInSuccess());
     } else if (result.isError()) {
       final response = result.tryGetError();
+      isLoading = false;
+
       emit(SignInFailure(message: response!.message));
     }
   }
