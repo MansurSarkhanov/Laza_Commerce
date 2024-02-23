@@ -6,4 +6,8 @@ import '../../Models/failure_model.dart';
 abstract class IAuthRepository {
   Future<Result<User, FailureModel>> signUpUser(
       {required String email, required String username, required String password, required String imageUrl});
+  Future<Result<User, FailureModel>> signInWithGoogle();
+
+
+
 }
