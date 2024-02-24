@@ -15,7 +15,6 @@ class AuthDataService {
     if (user != null) {
       final authUser = await user.authentication;
       final credential = GoogleAuthProvider.credential(accessToken: authUser.accessToken, idToken: authUser.idToken);
-
       final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       final User? resultUser = userCredential.user;
       return resultUser;

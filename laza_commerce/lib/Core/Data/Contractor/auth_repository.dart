@@ -8,8 +8,5 @@ abstract class IAuthRepository {
       {required String email, required String username, required String password, required String imageUrl});
   Future<Result<User, FailureModel>> signInWithGoogle();
   Future<Result<User, FailureModel>> signInUser({required String email, required String password});
-
-
-
-
+  Future<Result<bool, FailureModel>> checkLogin();
 }

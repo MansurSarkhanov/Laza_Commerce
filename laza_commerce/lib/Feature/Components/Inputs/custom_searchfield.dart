@@ -9,7 +9,7 @@ class CustomSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 230, 231, 232), borderRadius: BorderRadius.all(Radius.circular(12))),
+            color: Color.fromARGB(255, 235, 236, 236), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

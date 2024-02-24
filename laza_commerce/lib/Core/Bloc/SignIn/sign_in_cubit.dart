@@ -6,12 +6,12 @@ part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitial());
-  final authRepository = ImplAuthRepository();
+  final _authRepository = ImplAuthRepository();
   bool isLoading = false;
   Future<void> signInGoogle() async {
     isLoading = true;
     emit(SignInProgress());
-    final result = await authRepository.signInWithGoogle();
+    final result = await _authRepository.signInWithGoogle();
     if (result.isSuccess()) {
       print('sdf');
       isLoading = false;
@@ -19,7 +19,6 @@ class SignInCubit extends Cubit<SignInState> {
     } else if (result.isError()) {
       final response = result.tryGetError();
       isLoading = false;
-
       emit(SignInFailure(message: response!.message));
     }
   }
@@ -28,7 +27,7 @@ class SignInCubit extends Cubit<SignInState> {
     isLoading = true;
 
     emit(SignInProgress());
-    final result = await authRepository.signInUser(email: email, password: password);
+    final result = await _authRepository.signInUser(email: email, password: password);
     if (result.isSuccess()) {
       isLoading = false;
 
@@ -40,4 +39,5 @@ class SignInCubit extends Cubit<SignInState> {
       emit(SignInFailure(message: response!.message));
     }
   }
+
 }
