@@ -9,13 +9,14 @@ class AuthCubit extends Cubit<AuthState> {
 
   final _authRepository = ImplAuthRepository();
 
-  Future<bool?> checkUserLogin() async {
+  Future<void> checkUserLogin() async {
     await Future.delayed(const Duration(seconds: 3));
     final result = await _authRepository.checkLogin();
     if (result.isSuccess()) {
       final isLogin = result.tryGetSuccess();
-      emit(state);
+      emit((isLogin ?? false) ? AuthState.auth : AuthState.unAuth);
+    } else if (result.isError()) {
+      emit(AuthState.unAuth);
     }
-    return null;
   }
 }
