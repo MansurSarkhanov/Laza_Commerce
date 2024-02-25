@@ -13,7 +13,6 @@ class SignInCubit extends Cubit<SignInState> {
     emit(SignInProgress());
     final result = await _authRepository.signInWithGoogle();
     if (result.isSuccess()) {
-      print('sdf');
       isLoading = false;
       emit(SignInSuccess());
     } else if (result.isError()) {

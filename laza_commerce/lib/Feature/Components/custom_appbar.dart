@@ -12,25 +12,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: InkWell(
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: SvgPicture.asset(
-                IconPath.menu.toPathSvg(),
-                width: 12,
-                height: 12,
-              ),
+      automaticallyImplyLeading: false,
+      title: InkWell(
+        child: Container(
+          decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SvgPicture.asset(
+              IconPath.menu.toPathSvg(),
+              width: 12,
+              height: 12,
             ),
           ),
         ),
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 16.0, top: 12),
+          padding: const EdgeInsets.only(right: 16.0),
           child: Container(
             height: 45,
             width: 45,

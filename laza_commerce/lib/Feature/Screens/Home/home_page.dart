@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _tabController = TabController(length: 4, vsync: this);
   }
 
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,23 +54,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   TabBar _tabBar() {
-    return TabBar(controller: _tabController, tabs: [
-      Tab(
-        text: "Home",
-        icon: SvgPicture.asset(IconPath.home.toPathSvg()),
+    return TabBar(
+        overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+        onTap: (index) {
+          selectedIndex = index;
+          setState(() {});
+        },
+        controller: _tabController,
+        tabs: [
+          _buildTab(icon: IconPath.home.toPathSvg(), index: 0, title: "Home"),
+          _buildTab(icon: IconPath.favorite.toPathSvg(), index: 1, title: "Favorite"),
+          _buildTab(icon: IconPath.bag.toPathSvg(), index: 2, title: "Bag"),
+          _buildTab(icon: IconPath.product.toPathSvg(), index: 3, title: "Product"),
+        ]);
+  }
+
+  Tab _buildTab({required String icon, required String title, required int index}) {
+    Color iconColor = index == selectedIndex ? Theme.of(context).colorScheme.primary : Colors.grey;
+    return Tab(
+      text: title,
+      icon: SvgPicture.asset(
+        icon,
+        color: iconColor,
       ),
-      Tab(
-        text: "Favorite",
-        icon: SvgPicture.asset(IconPath.favorite.toPathSvg()),
-      ),
-      Tab(
-        text: "Bag",
-        icon: SvgPicture.asset(IconPath.bag.toPathSvg()),
-      ),
-      Tab(
-        text: "Product",
-        icon: SvgPicture.asset(IconPath.product.toPathSvg()),
-      ),
-    ]);
+    );
   }
 }
