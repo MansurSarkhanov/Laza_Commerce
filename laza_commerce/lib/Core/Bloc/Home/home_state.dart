@@ -11,8 +11,13 @@ final class HomeInitial extends HomeState {}
 
 final class HomeSuccess extends HomeState {
   final List<ProductModel> productList;
+  final UserModel user;
 
-  const HomeSuccess({required this.productList});
+
+  const HomeSuccess({
+    required this.productList,
+    required this.user,
+  });
 }
 
 final class HomeProgress extends HomeState {}
