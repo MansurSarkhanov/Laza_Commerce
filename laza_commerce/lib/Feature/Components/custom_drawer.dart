@@ -1,8 +1,13 @@
 import 'dart:ui' show ImageFilter;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 import 'package:laza_commerce/Feature/Screens/Home/home_page.dart';
+import 'package:laza_commerce/Product/Constants/Paths/icon_path.dart';
+
+import '../../Product/Constants/app_colors.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -65,7 +70,76 @@ class CustomDrawer extends StatelessWidget {
                         state.user.email ?? '',
                         style: const TextStyle(color: Colors.grey),
                       ),
+                     
                     ],
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(IconPath.sun.toPathSvg()),
+                  const Text("Dark Mode"),
+                  SizedBox(
+                    height: 30,
+                    width: 45,
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: CupertinoSwitch(
+                          activeColor: AppColors.primaryColor,
+                          value: true,
+                          onChanged: (bool value) {},
+                        )),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(IconPath.sun.toPathSvg()),
+                  const Text("Dark Mode"),
+                  SizedBox(
+                    height: 30,
+                    width: 45,
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: CupertinoSwitch(
+                          activeColor: AppColors.primaryColor,
+                          value: true,
+                          onChanged: (bool value) {},
+                        )),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(IconPath.sun.toPathSvg()),
+                  const Text("Dark Mode"),
+                  SizedBox(
+                    height: 30,
+                    width: 45,
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: CupertinoSwitch(
+                          activeColor: AppColors.primaryColor,
+                          value: true,
+                          onChanged: (bool value) {},
+                        )),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(IconPath.sun.toPathSvg()),
+                  const Text("Dark Mode"),
+                  SizedBox(
+                    height: 30,
+                    width: 45,
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: CupertinoSwitch(
+                          activeColor: AppColors.primaryColor,
+                          value: true,
+                          onChanged: (bool value) {},
+                        )),
                   )
                 ],
               )

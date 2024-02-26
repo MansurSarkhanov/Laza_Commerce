@@ -6,6 +6,8 @@ enum IconPath {
   product,
   menu,
   search,
+  setting, sun, lock, logout, info
+
 }
 
 extension IconPathExtension on IconPath {
