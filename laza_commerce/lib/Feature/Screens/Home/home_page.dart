@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +31,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+      drawer: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width * 0.8,
+          color: Colors.white,
+        ),
+      ),
       bottomNavigationBar: _tabBar(),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
@@ -52,6 +61,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
+                          onTap: () {
+                            Scaffold.of(context).openDrawer();
+                          },
                           child: Container(
                             decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
                             child: Padding(
