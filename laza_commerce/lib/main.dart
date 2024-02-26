@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_commerce/Core/Bloc/Auth/auth_cubit.dart';
+import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 import 'package:laza_commerce/Core/DI/injection.dart';
 
 import 'Core/Bloc/SignIn/sign_in_cubit.dart';
@@ -33,14 +34,17 @@ class MyApp extends StatelessWidget {
         create: (context) => SignInCubit(),
         child: BlocProvider(
           create: (context) => AuthCubit()..checkUserLogin(),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Laza Commerce',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
+          child: BlocProvider(
+            create: (context) => HomeCubit(),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Laza Commerce',
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              home: const SplashPage(),
             ),
-            home: const SplashPage(),
           ),
         ),
       ),

@@ -14,6 +14,7 @@ class HomeService {
     ).get();
     if (response.docs.isNotEmpty) {
       final products = response.docs.map((e) => e.data()).toList();
+      print('sdfsdf');
       return products;
     }
     return null;
