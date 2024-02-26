@@ -1,5 +1,3 @@
-import 'dart:ui' show ImageFilter;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +7,7 @@ import 'package:laza_commerce/Product/Constants/Paths/icon_path.dart';
 import '../../../Product/Constants/Paths/image_path.dart';
 import '../../Animations/bounce_animation.dart';
 import '../../Components/Inputs/custom_searchfield.dart';
+import '../../Components/custom_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,13 +30,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width * 0.8,
-          color: Colors.white,
-        ),
+      drawer: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is HomeSuccess) {
+            return CustomDrawer(
+              state: state,
+            );
+          }
+          return IconButton(onPressed: () {}, icon: const Icon(Icons.menu));
+        },
       ),
       bottomNavigationBar: _tabBar(),
       body: BlocBuilder<HomeCubit, HomeState>(
@@ -76,13 +77,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 45,
-                          width: 45,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover, image: NetworkImage(state.user.image ?? ImagePath.emptyImageUrl))),
+                        ProfileImage(
+                          state: state,
                         ),
                       ],
                     ),
@@ -168,6 +164,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         icon,
         color: iconColor,
       ),
+    );
+  }
+}
+
+class ProfileImage extends StatelessWidget {
+  const ProfileImage({
+    super.key,
+    required this.state,
+    this.height = 45,
+    this.width = 45,
+  });
+  final HomeSuccess state;
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(state.user.image ?? ImagePath.emptyImageUrl))),
     );
   }
 }
