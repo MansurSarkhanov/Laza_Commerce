@@ -50,6 +50,8 @@ class _ProductTabState extends State<ProductTab> {
               ),
               DropdownButtonFormField(
                 decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey)), 
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey))),
                 value: _chosenModel,
@@ -67,7 +69,10 @@ class _ProductTabState extends State<ProductTab> {
                 },
                 hint: const Text(
                   "Choose a Car Model",
-                  style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ],

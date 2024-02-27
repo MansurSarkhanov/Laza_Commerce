@@ -1,4 +1,5 @@
 import 'package:laza_commerce/Core/Data/Contractor/home_repository.dart';
+import 'package:laza_commerce/Core/Models/category_model.dart';
 import 'package:laza_commerce/Core/Models/failure_model.dart';
 import 'package:laza_commerce/Core/Models/product_model.dart';
 import 'package:laza_commerce/Core/Models/user_model.dart';
@@ -28,6 +29,17 @@ class ImplHomeRepository implements IHomeRepository {
       final user = await _homeService.getUserInfo();
       return Success(user!);
     } catch (e) {
+      return Error(FailureModel(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<List<CategoryModel>, FailureModel>> fetchAllCategories() async {
+    try {
+      final result = await _homeService.fetchCategories();
+      return Success(result!);
+    } catch (e) {
+      print(e);
       return Error(FailureModel(message: e.toString()));
     }
   }

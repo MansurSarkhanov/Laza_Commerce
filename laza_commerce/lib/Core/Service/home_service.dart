@@ -1,3 +1,4 @@
+import 'package:laza_commerce/Core/Models/category_model.dart';
 import 'package:laza_commerce/Core/Models/product_model.dart';
 import 'package:laza_commerce/Core/Models/user_model.dart';
 import 'package:laza_commerce/Product/Utility/Firebase/firebase_references.dart';
@@ -8,6 +9,8 @@ import '../Data/Cache/cache_manager.dart';
 class HomeService {
   final _firebaseRefProd = FirebaseReference.products.ref;
   final _firebaseRefUser = FirebaseReference.users.ref;
+  final _firebaseRefCategory = FirebaseReference.categories.ref;
+
   final _cacheManager = DependencyInjection().getIt.get<CacheManager>();
 
   Future<List<ProductModel>?> fetchAllProducts() async {
@@ -42,5 +45,22 @@ class HomeService {
         .get()
         .then((e) => e.data());
     return response;
+  }
+
+  Future<List<CategoryModel>?> fetchCategories() async {
+    final response = await _firebaseRefCategory.withConverter(
+      fromFirestore: (snapshot, options) {
+        return CategoryModel.fromJson(snapshot.data()!);
+      },
+      toFirestore: (value, options) {
+        return value.toJson();
+      },
+    ).get();
+    if (response.docs.isNotEmpty) {
+      final categories = response.docs.map((e) => e.data()).toList();
+      print('sdfsdf');
+      return categories;
+    }
+    return null;
   }
 }

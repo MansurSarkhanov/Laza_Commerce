@@ -115,6 +115,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           const SizedBox(height: 20),
           const BounceFromBottomAnimation(delay: 3, child: CustomSearchField()),
+          SizedBox(
+            height: 20,
+          ),
+          CategorySection(
+            state: state,
+          ),
           Expanded(
             child: BounceFromBottomAnimation(
                 delay: 3,
@@ -153,7 +159,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-
   TabBar _tabBar() {
     return TabBar(
         overlayColor: const MaterialStatePropertyAll(Colors.transparent),
@@ -178,6 +183,55 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         icon,
         color: iconColor,
       ),
+    );
+  }
+}
+
+class CategorySection extends StatelessWidget {
+  const CategorySection({
+    super.key,
+    required this.state,
+  });
+  final HomeSuccess state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              "Categories",
+              style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width - 40,
+          child: ListView.builder(
+            itemCount: state.categoryList.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Container(
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 235, 236, 236), borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(state.categoryList[index].name ?? 'dsfsdfs'),
+                  )),
+                ),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 }
