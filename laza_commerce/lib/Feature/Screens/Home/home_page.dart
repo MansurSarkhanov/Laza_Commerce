@@ -117,11 +117,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           const SizedBox(height: 20),
           const BounceFromBottomAnimation(delay: 3, child: CustomSearchField()),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          CategorySection(
-            state: state,
+          BounceFromBottomAnimation(
+            delay: 3,
+            child: CategorySection(
+              state: state,
+            ),
           ),
           Expanded(
             child: BounceFromBottomAnimation(
@@ -200,7 +203,7 @@ class CategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        const Row(
           children: [
             Text(
               "Categories",
@@ -208,7 +211,7 @@ class CategorySection extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         SizedBox(
@@ -222,7 +225,8 @@ class CategorySection extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Container(
                   decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 235, 236, 236), borderRadius: BorderRadius.circular(12)),
+                      BoxDecoration(
+                      color: const Color.fromARGB(255, 235, 236, 236), borderRadius: BorderRadius.circular(12)),
                   child: Center(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),

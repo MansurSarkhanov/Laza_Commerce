@@ -47,13 +47,13 @@ dev_dependencies:
   json_serializable: ^6.7.1
   build_runner: ^2.4.8
   flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
 
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/Images/im_app.png"
   min_sdk_android: 21 #
-  flutter_lints: ^2.0.0
 
 flutter:
 
