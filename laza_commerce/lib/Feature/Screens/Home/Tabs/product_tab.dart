@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
+
+import '../../../../Core/Models/category_model.dart';
 
 class ProductTab extends StatefulWidget {
-  const ProductTab({super.key});
-
+  const ProductTab({super.key, required this.state});
+  final HomeSuccess state;
   @override
   State<ProductTab> createState() => _ProductTabState();
 }
 
 class _ProductTabState extends State<ProductTab> {
-  String? _chosenModel;
   @override
   Widget build(BuildContext context) {
+    String? _chosenModel = widget.state.categoryList.first.name;
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -55,11 +59,14 @@ class _ProductTabState extends State<ProductTab> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey))),
                 value: _chosenModel,
-                items: <String>['Tesla Model S', 'Hyundai Sonata', 'Jeep Wrangler', 'Honda Accord', 'Mercedes S-Class']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: widget.state.categoryList.map<DropdownMenuItem<String>>((CategoryModel value) {
                   return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+
+                    value: value.name,
+                    child: Text(
+                      value.name ?? 'Test',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
@@ -67,11 +74,13 @@ class _ProductTabState extends State<ProductTab> {
                     _chosenModel = newValue;
                   });
                 },
+                
                 hint: const Text(
                   "Choose a Car Model",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
+                    fontWeight: FontWeight.w400
                   ),
                 ),
               ),

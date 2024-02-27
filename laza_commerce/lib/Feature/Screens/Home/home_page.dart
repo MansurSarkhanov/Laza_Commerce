@@ -59,7 +59,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   _homeTabView(context, state),
                   _homeTabView(context, state),
                   _homeTabView(context, state),
-                  const ProductTab()
+                  ProductTab(
+                    state: state,
+                  )
                 ],
               ),
             );
