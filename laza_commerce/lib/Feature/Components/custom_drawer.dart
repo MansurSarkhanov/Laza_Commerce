@@ -7,8 +7,6 @@ import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 import 'package:laza_commerce/Feature/Screens/Home/home_page.dart';
 import 'package:laza_commerce/Product/Constants/Paths/icon_path.dart';
 
-import '../../Product/Constants/app_colors.dart';
-
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
     super.key,
@@ -33,7 +31,9 @@ class CustomDrawer extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Scaffold.of(context).closeDrawer();
+                    },
                     child: Container(
                       decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
                       child: const Padding(
@@ -70,82 +70,92 @@ class CustomDrawer extends StatelessWidget {
                         state.user.email ?? '',
                         style: const TextStyle(color: Colors.grey),
                       ),
-                     
                     ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(IconPath.sun.toPathSvg()),
-                  const Text("Dark Mode"),
-                  SizedBox(
-                    height: 30,
-                    width: 45,
-                    child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (bool value) {},
-                        )),
-                  )
-                ],
+              const SizedBox(
+                height: 18,
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(IconPath.sun.toPathSvg()),
-                  const Text("Dark Mode"),
-                  SizedBox(
-                    height: 30,
-                    width: 45,
-                    child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (bool value) {},
-                        )),
-                  )
-                ],
+              _DrawerSelection(
+                isShowSwitch: true,
+                imagePath: IconPath.sun.toPathSvg(),
+                title: "Dark Mode",
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(IconPath.sun.toPathSvg()),
-                  const Text("Dark Mode"),
-                  SizedBox(
-                    height: 30,
-                    width: 45,
-                    child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (bool value) {},
-                        )),
-                  )
-                ],
+              _DrawerSelection(
+                imagePath: IconPath.info.toPathSvg(),
+                title: "Account Information",
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(IconPath.sun.toPathSvg()),
-                  const Text("Dark Mode"),
-                  SizedBox(
-                    height: 30,
-                    width: 45,
-                    child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (bool value) {},
-                        )),
-                  )
-                ],
-              )
+              _DrawerSelection(
+                imagePath: IconPath.lock.toPathSvg(),
+                title: "Password",
+              ),
+              _DrawerSelection(
+                imagePath: IconPath.bagdrawer.toPathSvg(),
+                title: "Order",
+              ),
+              _DrawerSelection(
+                imagePath: IconPath.favoritedrawer.toPathSvg(),
+                title: "Favorite",
+              ),
+              _DrawerSelection(
+                imagePath: IconPath.setting.toPathSvg(),
+                title: "Settings",
+              ),
+              const Spacer(
+                flex: 2,
+              ),
+              _DrawerSelection(
+                imagePath: IconPath.logout.toPathSvg(),
+                title: "Logout",
+              ),
+              const Spacer(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _DrawerSelection extends StatelessWidget {
+  const _DrawerSelection({
+    Key? key,
+    required this.title,
+    this.isShowSwitch = false,
+    required this.imagePath,
+  }) : super(key: key);
+  final String title;
+  final bool isShowSwitch;
+  final String imagePath;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          SvgPicture.asset(imagePath),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(title),
+          const Spacer(),
+          isShowSwitch
+              ? SizedBox(
+                  height: 30,
+                  width: 45,
+                  child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: CupertinoSwitch(
+                        activeColor: Colors.green,
+                        value: false,
+                        onChanged: (bool value) {},
+                      )),
+                )
+              : const SizedBox(
+                  height: 30,
+                )
+        ],
       ),
     );
   }

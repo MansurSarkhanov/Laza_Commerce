@@ -2,7 +2,10 @@ enum IconPath {
   google,
   home,
   favorite,
+  favoritedrawer,
   bag,
+  bagdrawer,
+
   product,
   menu,
   search,
