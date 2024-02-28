@@ -5,9 +5,12 @@ import '../../Data/Repository/impl_auth_repository.dart';
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit() : super(SignInInitial());
+  SignInCubit() : super(SignInInitial(number: 10));
   final _authRepository = ImplAuthRepository();
   bool isLoading = false;
+
+
+
   Future<void> signInGoogle() async {
     isLoading = true;
     emit(SignInProgress());
@@ -38,5 +41,4 @@ class SignInCubit extends Cubit<SignInState> {
       emit(SignInFailure(message: response!.message));
     }
   }
-
 }

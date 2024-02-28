@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
-import 'package:laza_commerce/Core/Service/firebase_storage_service.dart';
 import 'package:laza_commerce/Feature/Animations/bounce_animation.dart';
 import 'package:laza_commerce/Feature/Screens/SignIn/signin_page.dart';
 import 'package:laza_commerce/Feature/Screens/SignUp/signup_page.dart';
@@ -16,9 +15,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  final storage = FirebaseStorageService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

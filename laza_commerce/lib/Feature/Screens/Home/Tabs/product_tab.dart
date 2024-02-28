@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 
 import '../../../../Core/Models/category_model.dart';
+import '../../../../Core/Service/firebase_storage_service.dart';
 
 class ProductTab extends StatefulWidget {
   const ProductTab({super.key, required this.state});
@@ -11,7 +12,7 @@ class ProductTab extends StatefulWidget {
 }
 
 class _ProductTabState extends State<ProductTab> {
-  
+  final storage = FirebaseStorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +58,12 @@ class _ProductTabState extends State<ProductTab> {
               DropdownButtonFormField(
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey)), 
+                        borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey)),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.grey))),
                 value: chosenModel,
                 items: widget.state.categoryList.map<DropdownMenuItem<String>>((CategoryModel value) {
                   return DropdownMenuItem<String>(
-
                     value: value.name,
                     child: Text(
                       value.name ?? 'Test',
@@ -76,14 +76,9 @@ class _ProductTabState extends State<ProductTab> {
                     chosenModel = newValue;
                   });
                 },
-                
                 hint: const Text(
                   "Choose a Car Model",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),
               const SizedBox(
@@ -93,19 +88,76 @@ class _ProductTabState extends State<ProductTab> {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Theme.of(context).hoverColor),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Card(
-                    child: CustomPaint(
-                      painter: DashedBorderPainter(),
-                      child: Container(
-                          width: double.infinity,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(20.0), // İstediğiniz kenar yuvarlaklığını ayarlayabilirsiniz.
-                          )),
-                    ),
-                  ),
+                  child: InkWell(
+                      onTap: () async {
+                        await storage.pickImage();
+
+                        setState(() {});
+                      },
+                      child: storage.selectedFile != null
+                          ? Container(
+                              height: 200,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: MemoryImage(
+                                      storage.selectedImgeByte!,
+                                    )),
+                                color: const Color.fromARGB(255, 223, 223, 225),
+                              ),
+                            )
+                          : Card(
+                              child: CustomPaint(
+                                painter: DashedBorderPainter(),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0), // İstediğiniz kenar yuvarlaklığını ayarlayabilirsiniz.
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add_a_photo_outlined,
+                                      size: 32,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      const Text("Start Date"),
+                      InkWell(
+                        onTap: () {
+                          showDatePicker(
+                              context: context,
+                              firstDate: DateTime(2017, 9, 7, 17, 30),
+                              lastDate: DateTime(2023, 9, 7, 17, 30));
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(color: Colors.green),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [Text("Today"), Icon(Icons.date_range)],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
               )
             ],
           )

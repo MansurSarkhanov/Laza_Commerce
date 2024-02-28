@@ -27,6 +27,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       bottomNavigationBar: AuthButton(
         onTap: () => context.read<SignInCubit>().signIn(email: emailController.text, password: passController.text),
         buttonText: "Login",
@@ -84,6 +85,7 @@ class _SignInPageState extends State<SignInPage> {
                       const SizedBox(
                         height: 20,
                       ),
+                   
                       const Text(
                         "Welcome",
                         style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
