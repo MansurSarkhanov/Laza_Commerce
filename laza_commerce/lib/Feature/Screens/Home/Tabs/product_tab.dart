@@ -27,7 +27,7 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
 
   @override
   Widget build(BuildContext context) {
-    String? chosenModel = widget.state.categoryList.first.name;
+    String? chosenModel = widget.state.categoryList?.first.name;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
@@ -85,7 +85,7 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: const BorderSide(color: Colors.grey))),
                         value: chosenModel,
-                        items: widget.state.categoryList.map<DropdownMenuItem<String>>((CategoryModel value) {
+                        items: widget.state.categoryList?.map<DropdownMenuItem<String>>((CategoryModel value) {
                           return DropdownMenuItem<String>(
                             value: value.name,
                             child: Text(
@@ -141,13 +141,13 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                                     ],
                                   ),
                                 )
-                              : InkWell(
-                                  onTap: () async {
+                              : Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: InkWell(
+                                    onTap: () async {
                                     await storage.pickImage();
                                     setState(() {});
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
+                                    },
                                     child: Card(
                                       child: CustomPaint(
                                         painter: DashedBorderPainter(),
@@ -363,43 +363,38 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                     const SizedBox(
                       height: 14,
                     ),
-                    BounceFromBottomAnimation(
-                      delay: 4,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            await storage.uploadImage("products");
-                            final model = ProductModel(
-                                category: chosenModel,
-                                name: _nameController.text,
-                                description: _descriptionController.text,
-                                start_date: formattedDateStart,
-                                expiration_date: formattedDateEnd,
-                                price: _priceController.text,
-                                username: widget.state.user.username,
-                                image: storage.imageUrl,
-                                id: const Uuid().v4(),
-                                usernameId: widget.state.user.uid);
-                            print(model.category);
-                            print(model.name);
-                            print(model.description);
-                            print(model.start_date);
-                            print(model.expiration_date);
-                            print(model.price);
-                            print(model.username);
-                            print(model.id);
-                            print(model.usernameId);
-                            print(model.image);
-
-                            context.read<HomeCubit>().sendProduct(model);
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.0),
-                            child: Center(
-                                child: Text(
-                              "Submit",
-                              style: TextStyle(fontSize: 16),
-                            )),
-                          )),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return BounceFromBottomAnimation(
+                          delay: 4,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                await storage.uploadImage("products");
+                                final model = ProductModel(
+                                    category: chosenModel,
+                                    name: _nameController.text,
+                                    description: _descriptionController.text,
+                                    start_date: formattedDateStart,
+                                    expiration_date: formattedDateEnd,
+                                    price: _priceController.text,
+                                    username: widget.state.user?.username,
+                                    image: storage.imageUrl,
+                                    id: const Uuid().v4(),
+                                    usernameId: widget.state.user?.uid);
+                                context.read<HomeCubit>().sendProduct(model);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                                child: Center(
+                                    child: context.watch<HomeCubit>().isLoding
+                                        ? const CircularProgressIndicator()
+                                        : const Text(
+                                            "Submit",
+                                            style: TextStyle(fontSize: 16),
+                                          )),
+                              )),
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 14,

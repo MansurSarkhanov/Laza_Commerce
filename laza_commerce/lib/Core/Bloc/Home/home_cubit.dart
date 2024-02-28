@@ -12,9 +12,10 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
   final _homeRepository = ImplHomeRepository();
   // String? _chosenModel = widget.state.categoryList.first.name;
-
+  bool isLoding = false;
   Future<void> sendProduct(ProductModel model) async {
     final result = await _homeRepository.sendProduct(model);
+
   }
 
   Future<void> fetchAllProducts() async {

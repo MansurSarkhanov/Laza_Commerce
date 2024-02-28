@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: BounceFromBottomAnimation(
                 delay: 3,
                 child: GridView.builder(
-                  itemCount: state.productList.length,
+                  itemCount: state.productList?.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 10 / 16, crossAxisCount: 2, crossAxisSpacing: 16),
                   itemBuilder: (context, index) {
@@ -144,15 +144,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(state.productList[index].image ??
+                                      image: NetworkImage(state.productList?[index].image ??
                                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s'))),
                             ),
                           ),
                           const SizedBox(
                             height: 8,
                           ),
-                          Text(state.productList[index].name ?? ''),
-                          Text(state.productList[index].price ?? ''),
+                          Text(state.productList?[index].name ?? ''),
+                          Text(state.productList?[index].price ?? ''),
                         ],
                       ),
                     );
@@ -219,7 +219,7 @@ class CategorySection extends StatelessWidget {
           height: 40,
           width: MediaQuery.of(context).size.width - 40,
           child: ListView.builder(
-            itemCount: state.categoryList.length,
+            itemCount: state.categoryList?.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Padding(
@@ -231,7 +231,7 @@ class CategorySection extends StatelessWidget {
                   child: Center(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(state.categoryList[index].name ?? 'dsfsdfs'),
+                    child: Text(state.categoryList?[index].name ?? 'dsfsdfs'),
                   )),
                 ),
               );
@@ -261,7 +261,7 @@ class ProfileImage extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(state.user.image ?? ImagePath.emptyImageUrl))),
+          image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(state.user?.image ?? ImagePath.emptyImageUrl))),
     );
   }
 }

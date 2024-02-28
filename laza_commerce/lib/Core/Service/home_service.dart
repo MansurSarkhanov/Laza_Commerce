@@ -77,7 +77,7 @@ class HomeService {
       username: productModel.username,
       usernameId: productModel.usernameId,
     ).toJson();
-    final request = _firebaseRefProd.doc().set(model);
+    final request = _firebaseRefProd.doc(productModel.id).set(model);
     print(request);
     return;
   }
