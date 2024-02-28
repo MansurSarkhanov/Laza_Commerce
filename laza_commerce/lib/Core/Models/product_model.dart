@@ -12,9 +12,22 @@ class ProductModel {
   String? price;
   String? username;
   String? usernameId;
+  String? start_date;
+  String? expiration_date;
+
+
 
   ProductModel(
-      {this.id, this.name, this.image, this.category, this.description, this.price, this.username, this.usernameId});
+      {this.id,
+      this.name,
+      this.image,
+      this.category,
+      this.description,
+      this.price,
+      this.username,
+      this.usernameId,
+      this.expiration_date,
+      this.start_date});
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return _$ProductModelFromJson(json);

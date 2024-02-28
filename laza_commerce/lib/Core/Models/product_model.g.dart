@@ -15,6 +15,8 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       price: json['price'] as String?,
       username: json['username'] as String?,
       usernameId: json['usernameId'] as String?,
+      expiration_date: json['expiration_date'] as String?,
+      start_date: json['start_date'] as String?,
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -27,4 +29,6 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'price': instance.price,
       'username': instance.username,
       'usernameId': instance.usernameId,
+      'start_date': instance.start_date,
+      'expiration_date': instance.expiration_date,
     };
