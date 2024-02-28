@@ -16,11 +16,14 @@ class ProductTab extends StatefulWidget {
 class _ProductTabState extends State<ProductTab> {
   final storage = FirebaseStorageService();
   DateTime date = DateTime.now();
-  late var formattedDate;
+  late var formattedDateStart;
+  late var formattedDateEnd;
+
   @override
   void initState() {
     super.initState();
-    formattedDate = DateFormat('d-MMM-yy').format(date);
+    formattedDateStart = DateFormat('d-MMM-yyyy').format(date);
+    formattedDateEnd = DateFormat('d-MMM-yyyy').format(date);
   }
 
   @override
@@ -94,30 +97,46 @@ class _ProductTabState extends State<ProductTab> {
                 height: 20,
               ),
               Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Theme.of(context).hoverColor),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: InkWell(
-                      onTap: () async {
-                        await storage.pickImage();
-
-                        setState(() {});
-                      },
-                      child: storage.selectedFile != null
-                          ? Container(
-                              height: 200,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: MemoryImage(
-                                      storage.selectedImgeByte!,
-                                    )),
-                                color: const Color.fromARGB(255, 223, 223, 225),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20), color: Theme.of(context).hoverColor),
+                  child: storage.selectedFile != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 200,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: MemoryImage(
+                                        storage.selectedImgeByte!,
+                                      )),
+                                  color: const Color.fromARGB(255, 223, 223, 225),
+                                ),
                               ),
-                            )
-                          : Card(
+                              TextButton(
+                                child: const Text('Change Photo'),
+                                onPressed: () async {
+                                  await storage.pickImage();
+
+                                  setState(() {});
+                                },
+                              )
+                            ],
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            await storage.pickImage();
+
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Card(
                               child: CustomPaint(
                                 painter: DashedBorderPainter(),
                                 child: Container(
@@ -136,9 +155,9 @@ class _ProductTabState extends State<ProductTab> {
                                   ),
                                 ),
                               ),
-                            )),
-                ),
-              ),
+                            ),
+                          ),
+                        )),
               const SizedBox(
                 height: 20,
               ),
@@ -167,7 +186,7 @@ class _ProductTabState extends State<ProductTab> {
                                 .then((selectedDate) => {
                                       setState(() {
                                         date = selectedDate!;
-                                        formattedDate = DateFormat('d-MMM-yy').format(selectedDate);
+                                        formattedDateStart = DateFormat('d-MMM-yyyy').format(selectedDate);
                                       })
                                     });
                           },
@@ -178,7 +197,7 @@ class _ProductTabState extends State<ProductTab> {
                               padding: const EdgeInsets.all(12.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text(formattedDate), const Icon(Icons.date_range)],
+                                children: [Text(formattedDateStart), const Icon(Icons.date_range)],
                               ),
                             ),
                           ),
@@ -205,18 +224,25 @@ class _ProductTabState extends State<ProductTab> {
                           splashColor: Colors.transparent,
                           onTap: () {
                             showDatePicker(
-                                context: context,
-                                firstDate: DateTime(2020, 9, 7, 17, 30),
-                                lastDate: DateTime(2030, 9, 7, 17, 30));
+                                    context: context,
+                                    initialDate: date,
+                                    firstDate: DateTime(2020, 9, 7, 17, 30),
+                                    lastDate: DateTime(2030, 9, 7, 17, 30))
+                                .then((selectedDate) => {
+                                      setState(() {
+                                        date = selectedDate!;
+                                        formattedDateEnd = DateFormat('d-MMM-yyyy').format(selectedDate);
+                                      })
+                                    });
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text("Today"), Icon(Icons.date_range)],
+                                children: [Text(formattedDateEnd), const Icon(Icons.date_range)],
                               ),
                             ),
                           ),
