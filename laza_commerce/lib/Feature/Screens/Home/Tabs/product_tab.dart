@@ -162,8 +162,8 @@ class _ProductTabState extends State<ProductTab> {
                             showDatePicker(
                                     context: context,
                                     initialDate: date,
-                                    firstDate: DateTime(2017, 9, 7, 17, 30),
-                                    lastDate: DateTime(2026, 9, 7, 17, 30))
+                                    firstDate: DateTime(2020, 9, 7, 17, 30),
+                                    lastDate: DateTime(2030, 9, 7, 17, 30))
                                 .then((selectedDate) => {
                                       setState(() {
                                         date = selectedDate!;
@@ -194,7 +194,7 @@ class _ProductTabState extends State<ProductTab> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Time*",
+                          "Expiration date*",
                           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
@@ -206,8 +206,8 @@ class _ProductTabState extends State<ProductTab> {
                           onTap: () {
                             showDatePicker(
                                 context: context,
-                                firstDate: DateTime(2017, 9, 7, 17, 30),
-                                lastDate: DateTime(2023, 9, 7, 17, 30));
+                                firstDate: DateTime(2020, 9, 7, 17, 30),
+                                lastDate: DateTime(2030, 9, 7, 17, 30));
                           },
                           child: Container(
                             decoration: BoxDecoration(
