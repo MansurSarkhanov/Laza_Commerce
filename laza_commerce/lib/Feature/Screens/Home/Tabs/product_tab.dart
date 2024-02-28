@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 
 import '../../../../Core/Models/category_model.dart';
 import '../../../../Core/Service/firebase_storage_service.dart';
+import '../../../Components/Painter/dash_painter.dart';
 
 class ProductTab extends StatefulWidget {
   const ProductTab({super.key, required this.state});
@@ -13,6 +15,13 @@ class ProductTab extends StatefulWidget {
 
 class _ProductTabState extends State<ProductTab> {
   final storage = FirebaseStorageService();
+  DateTime date = DateTime.now();
+  late var formattedDate;
+  @override
+  void initState() {
+    super.initState();
+    formattedDate = DateFormat('d-MMM-yy').format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,28 +144,86 @@ class _ProductTabState extends State<ProductTab> {
               ),
               Row(
                 children: [
-                  Column(
-                    children: [
-                      const Text("Start Date"),
-                      InkWell(
-                        onTap: () {
-                          showDatePicker(
-                              context: context,
-                              firstDate: DateTime(2017, 9, 7, 17, 30),
-                              lastDate: DateTime(2023, 9, 7, 17, 30));
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(color: Colors.green),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Row(
-                              children: [Text("Today"), Icon(Icons.date_range)],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Start Date*",
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        InkWell(
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            showDatePicker(
+                                    context: context,
+                                    initialDate: date,
+                                    firstDate: DateTime(2017, 9, 7, 17, 30),
+                                    lastDate: DateTime(2026, 9, 7, 17, 30))
+                                .then((selectedDate) => {
+                                      setState(() {
+                                        date = selectedDate!;
+                                        formattedDate = DateFormat('d-MMM-yy').format(selectedDate);
+                                      })
+                                    });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Text(formattedDate), const Icon(Icons.date_range)],
+                              ),
                             ),
                           ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Time*",
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         ),
-                      )
-                    ],
-                  )
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        InkWell(
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            showDatePicker(
+                                context: context,
+                                firstDate: DateTime(2017, 9, 7, 17, 30),
+                                lastDate: DateTime(2023, 9, 7, 17, 30));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Text("Today"), Icon(Icons.date_range)],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               )
             ],
@@ -164,52 +231,5 @@ class _ProductTabState extends State<ProductTab> {
         ],
       ),
     );
-  }
-}
-
-class DashedBorderPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.grey.shade400
-      ..strokeWidth = 3.0
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    const double dashWidth = 6.0;
-    const double dashSpace = 6.0;
-
-    // Sol kenar
-    double startY = 0.0;
-    while (startY < size.height) {
-      canvas.drawLine(Offset(0, startY), Offset(0, startY + dashWidth), paint);
-      startY += dashWidth + dashSpace;
-    }
-
-    // Sağ kenar
-    double endY = 0.0;
-    while (endY < size.height) {
-      canvas.drawLine(Offset(size.width, endY), Offset(size.width, endY + dashWidth), paint);
-      endY += dashWidth + dashSpace;
-    }
-
-    // Üst kenar
-    double startX = 0.0;
-    while (startX < size.width) {
-      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
-      startX += dashWidth + dashSpace;
-    }
-
-    // Alt kenar
-    double endX = 0.0;
-    while (endX < size.width) {
-      canvas.drawLine(Offset(endX, size.height), Offset(endX + dashWidth, size.height), paint);
-      endX += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
