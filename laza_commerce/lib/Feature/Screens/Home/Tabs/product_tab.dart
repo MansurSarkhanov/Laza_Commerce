@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
+import 'package:laza_commerce/Core/Models/product_model.dart';
 import 'package:laza_commerce/Feature/Animations/bounce_animation.dart';
+import 'package:laza_commerce/Product/Utility/Mixin/home_product_tab_mixin.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../Core/Models/category_model.dart';
 import '../../../../Core/Service/firebase_storage_service.dart';
@@ -14,18 +18,12 @@ class ProductTab extends StatefulWidget {
   State<ProductTab> createState() => _ProductTabState();
 }
 
-class _ProductTabState extends State<ProductTab> {
-  final storage = FirebaseStorageService();
-  DateTime date = DateTime.now();
-  late var formattedDateStart;
-  late var formattedDateEnd;
+class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    formattedDateStart = DateFormat('d-MMM-yyyy').format(date);
-    formattedDateEnd = DateFormat('d-MMM-yyyy').format(date);
-  }
+  final storage = FirebaseStorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +135,6 @@ class _ProductTabState extends State<ProductTab> {
                                         child: const Text('Change Photo'),
                                         onPressed: () async {
                                           await storage.pickImage();
-
                                           setState(() {});
                                         },
                                       )
@@ -147,7 +144,6 @@ class _ProductTabState extends State<ProductTab> {
                               : InkWell(
                                   onTap: () async {
                                     await storage.pickImage();
-
                                     setState(() {});
                                   },
                                   child: Padding(
@@ -277,37 +273,84 @@ class _ProductTabState extends State<ProductTab> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const BounceFromBottomAnimation(
+                    BounceFromBottomAnimation(
                         delay: 4,
                         child: Card(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
-                                  "Prduct name",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Prduct name :",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                                 ),
-                              )
-                            ],
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                SizedBox(
+                                  width: 150,
+                                  child: TextField(
+                                    controller: _nameController,
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter name",
+                                      hintStyle: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )),
-                    const BounceFromBottomAnimation(
+                    BounceFromBottomAnimation(
+                        delay: 4,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Prduct price :",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                SizedBox(
+                                  width: 150,
+                                  child: TextField(
+                                    keyboardType: TextInputType.phone,
+                                    controller: _priceController,
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter Price",
+                                      hintStyle: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                    BounceFromBottomAnimation(
                       delay: 4,
                       child: Card(
                         child: Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Product Information",
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                               ),
                               TextField(
+                                controller: _descriptionController,
                                 maxLines: 7,
                                 maxLength: 100,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Description...",
                                     hintStyle: TextStyle(fontWeight: FontWeight.w400)),
@@ -323,7 +366,32 @@ class _ProductTabState extends State<ProductTab> {
                     BounceFromBottomAnimation(
                       delay: 4,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await storage.uploadImage("products");
+                            final model = ProductModel(
+                                category: chosenModel,
+                                name: _nameController.text,
+                                description: _descriptionController.text,
+                                start_date: formattedDateStart,
+                                expiration_date: formattedDateEnd,
+                                price: _priceController.text,
+                                username: widget.state.user.username,
+                                image: storage.imageUrl,
+                                id: const Uuid().v4(),
+                                usernameId: widget.state.user.uid);
+                            print(model.category);
+                            print(model.name);
+                            print(model.description);
+                            print(model.start_date);
+                            print(model.expiration_date);
+                            print(model.price);
+                            print(model.username);
+                            print(model.id);
+                            print(model.usernameId);
+                            print(model.image);
+
+                            context.read<HomeCubit>().sendProduct(model);
+                          },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 20.0),
                             child: Center(

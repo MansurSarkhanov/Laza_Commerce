@@ -11,9 +11,9 @@ class FirebaseStorageService {
   Uint8List? selectedImgeByte;
   String imageUrl = ImagePath.emptyImageUrl;
 
-  Future<String?> uploadImage() async {
+  Future<String?> uploadImage(String path) async {
     if (selectedImgeByte != null) {
-      final uploadImage = await firebaseStorageRef.child('images').child('profile').child(selectedFile!.name).putData(
+      final uploadImage = await firebaseStorageRef.child('images').child(path).child(selectedFile!.name).putData(
             selectedImgeByte!,
             SettableMetadata(contentType: 'image/png'),
           );

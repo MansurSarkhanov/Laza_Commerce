@@ -9,6 +9,8 @@ abstract class IHomeRepository {
   Future<Result<List<ProductModel>, FailureModel>> fetchAllProducts();
   Future<Result<UserModel, FailureModel>> getUserinfo();
   Future<Result<List<CategoryModel>, FailureModel>> fetchAllCategories();
+  Future<Result<bool, FailureModel>> sendProduct(ProductModel model);
+
 
   
 }

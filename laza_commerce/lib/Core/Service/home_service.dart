@@ -63,4 +63,22 @@ class HomeService {
     }
     return null;
   }
+
+  Future<void> sendProduct(ProductModel productModel) async {
+    final model = ProductModel(
+      category: productModel.category,
+      description: productModel.description,
+      expiration_date: productModel.expiration_date,
+      id: productModel.id,
+      image: productModel.image,
+      name: productModel.name,
+      price: productModel.price,
+      start_date: productModel.start_date,
+      username: productModel.username,
+      usernameId: productModel.usernameId,
+    ).toJson();
+    final request = _firebaseRefProd.doc().set(model);
+    print(request);
+    return;
+  }
 }
