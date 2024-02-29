@@ -47,7 +47,7 @@ class ImplHomeRepository implements IHomeRepository {
   @override
   Future<Result<bool, FailureModel>> sendProduct(ProductModel model) async {
     try {
-      final result = await _homeService.sendProduct(model);
+      await _homeService.sendProduct(model);
       return const Success(true);
     } catch (e) {
       return Error(FailureModel(message: e.toString()));

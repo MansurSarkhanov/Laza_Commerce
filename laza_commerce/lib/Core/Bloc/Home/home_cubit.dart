@@ -14,7 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
   // String? _chosenModel = widget.state.categoryList.first.name;
   bool isLoding = false;
   Future<void> sendProduct(ProductModel model) async {
-    final result = await _homeRepository.sendProduct(model);
+    await _homeRepository.sendProduct(model);
 
   }
 

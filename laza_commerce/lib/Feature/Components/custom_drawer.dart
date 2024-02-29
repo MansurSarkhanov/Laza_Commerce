@@ -63,11 +63,11 @@ class CustomDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.user?.username ?? '',
+                        state.user.username ?? '',
                         style: const TextStyle(fontSize: 20),
                       ),
                       Text(
-                        state.user?.email ?? '',
+                        state.user.email ?? '',
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ],

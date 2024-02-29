@@ -27,7 +27,7 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
 
   @override
   Widget build(BuildContext context) {
-    String? chosenModel = widget.state.categoryList?.first.name;
+    String? chosenModel = widget.state.categoryList.first.name;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
@@ -85,7 +85,7 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: const BorderSide(color: Colors.grey))),
                         value: chosenModel,
-                        items: widget.state.categoryList?.map<DropdownMenuItem<String>>((CategoryModel value) {
+                        items: widget.state.categoryList.map<DropdownMenuItem<String>>((CategoryModel value) {
                           return DropdownMenuItem<String>(
                             value: value.name,
                             child: Text(
@@ -377,10 +377,10 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                                     start_date: formattedDateStart,
                                     expiration_date: formattedDateEnd,
                                     price: _priceController.text,
-                                    username: widget.state.user?.username,
+                                    username: widget.state.user.username,
                                     image: storage.imageUrl,
                                     id: const Uuid().v4(),
-                                    usernameId: widget.state.user?.uid);
+                                    usernameId: widget.state.user.uid);
                                 context.read<HomeCubit>().sendProduct(model);
                               },
                               child: Padding(
