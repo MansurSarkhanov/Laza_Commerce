@@ -20,32 +20,24 @@ An ecommerce app allows users to shop online, browse product catalogs, create wi
 <img src="laza_commerce/assets/Images/im_app.png" width="128"/>
 
 ### Splash Page
-
-<img src="laza_commerce/assets/Design/splash.jpeg"  style="width:15%">
-
-### Start Page
+<img src="laza_commerce/assets/Design/splash.jpg"  style="width:15%">
 
 
+### Auth pages
   <div class="row">
-    <img src="laza_commerce/assets/Design/start.jpeg"  style="width:15%">
-  
+    <img src="laza_commerce/assets/Design/start.jpg"  style="width:15%">
+    <img src="laza_commerce/assets/Design/register.jpg"  style="width:15%">
+    <img src="laza_commerce/assets/Design/login.jpg"  style="width:15%">
+    
   </div>
 
-### Home Pages
-
-
+### Add Prduct
   <div class="row">
-    <img src="weather_app/assets/Design/home1.jpg"  style="width:15%">
-    <img src="weather_app/assets/Design/home2.jpg"  style="width:15%">
-    <img src="weather_app/assets/Design/forecast1.jpg"  style="width:15%">
-    <img src="weather_app/assets/Design/forecast2.jpg"  style="width:15%">
-    <img src="weather_app/assets/Design/preciption.jpg"  style="width:15%">
+    <img src="laza_commerce/assets/Design/product.jpg"  style="width:15%">
+    <img src="laza_commerce/assets/Design/product2.jpg"  style="width:15%">
   </div>
 
 ### Drawer 
   <div class="row">
-    <img src="weather_app/assets/Design/sidebar.jpg"  style="width:15%">
-    <img src="weather_app/assets/Design/share.jpg"  style="width:15%">
-    
-
+    <img src="laza_commerce/assets/Design/drower.jpg"  style="width:15%">
   </div>
