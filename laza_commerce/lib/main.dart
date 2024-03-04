@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             create: (context) => HomeCubit(),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'Laza Commerce',
+              title: 'Laza Commerce App',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
