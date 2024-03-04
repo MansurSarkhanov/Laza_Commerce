@@ -13,9 +13,11 @@ class HomeCubit extends Cubit<HomeState> {
   final _homeRepository = ImplHomeRepository();
   // String? _chosenModel = widget.state.categoryList.first.name;
   bool isLoding = false;
+  bool isSendProduct = false;
+  String? chosenModel = '';
+
   Future<void> sendProduct(ProductModel model) async {
     await _homeRepository.sendProduct(model);
-
   }
 
   Future<void> fetchAllProducts() async {

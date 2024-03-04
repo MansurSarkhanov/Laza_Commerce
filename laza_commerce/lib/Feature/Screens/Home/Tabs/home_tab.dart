@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kartal/kartal.dart';
 
 import '../../../../Core/Bloc/Home/home_cubit.dart';
 import '../../../../Product/Constants/Paths/icon_path.dart';
 import '../../../Animations/bounce_animation.dart';
 import '../../../Components/Inputs/custom_searchfield.dart';
-import '../Detail/detail_page.dart';
+import '../Widgets/product_grid.dart';
 import '../home_page.dart';
 
 class HomeTab extends StatelessWidget {
@@ -18,7 +17,7 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,7 +46,7 @@ class HomeTab extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           Text(
             "Hello ",
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w500),
@@ -56,57 +55,18 @@ class HomeTab extends StatelessWidget {
             "Welcome to Laza.",
             style: TextStyle(color: Colors.grey.shade500),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
+
           const BounceFromBottomAnimation(delay: 3, child: CustomSearchField()),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 12),
+
           BounceFromBottomAnimation(
             delay: 3,
             child: CategorySection(
               state: state,
             ),
           ),
-          Expanded(
-            child: BounceFromBottomAnimation(
-                delay: 3,
-                child: GridView.builder(
-                  itemCount: state.productList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 10 / 16, crossAxisCount: 2, crossAxisSpacing: 16),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        context.route.navigateToPage(DetailPage(
-                          model: state.productList[index],
-                        ));
-                      },
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(state.productList[index].image ??
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s'))),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(state.productList[index].name ?? ''),
-                            Text(state.productList[index].price ?? ''),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                )),
-          )
+          ProductGridView(state: state)
         ],
       ),
     );

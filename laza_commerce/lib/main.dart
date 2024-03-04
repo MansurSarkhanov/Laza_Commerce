@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_commerce/Core/Bloc/Auth/auth_cubit.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 import 'package:laza_commerce/Core/DI/injection.dart';
+import 'package:laza_commerce/Core/Provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'Core/Bloc/SignIn/sign_in_cubit.dart';
 import 'Core/Bloc/SignUp/sign_up_cubit.dart';
@@ -17,7 +19,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => HomeProvider(),
+    )
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -48,7 +54,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      
     );
   }
 }

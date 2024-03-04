@@ -26,3 +26,7 @@ final class HomeSuccess extends HomeState {
 final class HomeProgress extends HomeState {}
 
 final class HomeFailure extends HomeState {}
+
+final class HomeProductTabSuccess extends HomeState {}
+
+final class HomeProductTabProgress extends HomeState {}

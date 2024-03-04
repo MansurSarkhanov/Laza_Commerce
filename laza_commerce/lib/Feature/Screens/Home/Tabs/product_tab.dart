@@ -4,12 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:laza_commerce/Core/Bloc/Home/home_cubit.dart';
 import 'package:laza_commerce/Core/Models/product_model.dart';
 import 'package:laza_commerce/Feature/Animations/bounce_animation.dart';
+import 'package:laza_commerce/Feature/Screens/Home/Widgets/pick_image_card.dart';
+import 'package:laza_commerce/Feature/Screens/Home/Widgets/select_category.dart';
 import 'package:laza_commerce/Product/Utility/Mixin/home_product_tab_mixin.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../Core/Models/category_model.dart';
+import '../../../../Core/Provider/home_provider.dart';
 import '../../../../Core/Service/firebase_storage_service.dart';
-import '../../../Components/Painter/dash_painter.dart';
+import '../Widgets/app_bar_item.dart';
 
 class ProductTab extends StatefulWidget {
   const ProductTab({super.key, required this.state});
@@ -27,7 +30,6 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
 
   @override
   Widget build(BuildContext context) {
-    String? chosenModel = widget.state.categoryList.first.name;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
@@ -38,141 +40,19 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 25),
-              BounceFromBottomAnimation(
-                delay: 3,
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
-                        child: const Padding(padding: EdgeInsets.all(16), child: Icon(Icons.arrow_back)),
-                      ),
-                    ),
-                    const Spacer(),
-                    const Text(
-                      "Add Product",
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
+              const AppBarItem(),
+              const SizedBox(height: 16),
               BounceFromBottomAnimation(
                 delay: 3,
                 child: Column(
                   children: [
-                    const Row(
-                      children: [
-                        Text(
-                          "Select Category",
-                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
+                    SelectCategorySection(state: widget.state),
                     const SizedBox(
-                      height: 8,
+                      height: 16,
                     ),
-                    BounceFromBottomAnimation(
-                      delay: 4,
-                      child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Colors.grey)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: const BorderSide(color: Colors.grey))),
-                        value: chosenModel,
-                        items: widget.state.categoryList.map<DropdownMenuItem<String>>((CategoryModel value) {
-                          return DropdownMenuItem<String>(
-                            value: value.name,
-                            child: Text(
-                              value.name ?? 'Test',
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            chosenModel = newValue;
-                          });
-                        },
-                        hint: const Text(
-                          "Choose a Car Model",
-                          style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ),
+                    PickImageCard(storage: storage),
                     const SizedBox(
-                      height: 24,
-                    ),
-                    BounceFromBottomAnimation(
-                      delay: 4,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20), color: Theme.of(context).hoverColor),
-                          child: storage.selectedFile != null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 200,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: MemoryImage(
-                                                storage.selectedImgeByte!,
-                                              )),
-                                          color: const Color.fromARGB(255, 223, 223, 225),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        child: const Text('Change Photo'),
-                                        onPressed: () async {
-                                          await storage.pickImage();
-                                          setState(() {});
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: InkWell(
-                                    onTap: () async {
-                                    await storage.pickImage();
-                                    setState(() {});
-                                    },
-                                    child: Card(
-                                      child: CustomPaint(
-                                        painter: DashedBorderPainter(),
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                20.0), // İstediğiniz kenar yuvarlaklığını ayarlayabilirsiniz.
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.add_a_photo_outlined,
-                                              size: 32,
-                                              color: Colors.grey.shade400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                    ),
-                    const SizedBox(
-                      height: 24,
+                      height: 16,
                     ),
                     BounceFromBottomAnimation(
                       delay: 4,
@@ -367,32 +247,37 @@ class _ProductTabState extends State<ProductTab> with HomeProductTabMixin {
                       builder: (context, state) {
                         return BounceFromBottomAnimation(
                           delay: 4,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await storage.uploadImage("products");
-                                final model = ProductModel(
-                                    category: chosenModel,
-                                    name: _nameController.text,
-                                    description: _descriptionController.text,
-                                    start_date: formattedDateStart,
-                                    expiration_date: formattedDateEnd,
-                                    price: _priceController.text,
-                                    username: widget.state.user.username,
-                                    image: storage.imageUrl,
-                                    id: const Uuid().v4(),
-                                    usernameId: widget.state.user.uid);
-                                context.read<HomeCubit>().sendProduct(model);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                                child: Center(
-                                    child: context.watch<HomeCubit>().isLoding
-                                        ? const CircularProgressIndicator()
-                                        : const Text(
-                                            "Submit",
-                                            style: TextStyle(fontSize: 16),
-                                          )),
-                              )),
+                          child: Consumer(builder: (context, HomeProvider provider, child) {
+                            return ElevatedButton(
+                                onPressed: () async {
+                                  provider.changeLoading();
+                                  await storage.uploadImage("products");
+                                  final model = ProductModel(
+                                      category: context.watch<HomeCubit>().chosenModel,
+                                      name: _nameController.text,
+                                      description: _descriptionController.text,
+                                      start_date: formattedDateStart,
+                                      expiration_date: formattedDateEnd,
+                                      price: _priceController.text,
+                                      username: widget.state.user.username,
+                                      image: storage.imageUrl,
+                                      id: const Uuid().v4(),
+                                      usernameId: widget.state.user.uid);
+                                  context.read<HomeCubit>().sendProduct(model);
+                                  provider.changeLoading();
+
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                                  child: Center(
+                                      child: provider.isProductSend
+                                          ? const CircularProgressIndicator()
+                                          : const Text(
+                                              "Submit",
+                                              style: TextStyle(fontSize: 16),
+                                            )),
+                                ));
+                          }),
                         );
                       },
                     ),
