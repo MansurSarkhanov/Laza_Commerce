@@ -20,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
       child: Container(
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.75,
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -67,11 +67,17 @@ class CustomDrawer extends StatelessWidget {
                       children: [
                         Text(
                           state.user.username ?? '',
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 18),
                         ),
-                        Text(
-                          state.user.email ?? '',
-                          style: const TextStyle(color: Colors.grey),
+                        SizedBox(
+                          width: 150,
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Text(
+                              state.user.email ?? '',
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                          ),
                         ),
                       ],
                     ),
