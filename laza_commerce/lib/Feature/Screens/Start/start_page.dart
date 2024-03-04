@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:laza_commerce/Feature/Animations/bounce_animation.dart';
@@ -52,7 +53,9 @@ class _StartPageState extends State<StartPage> {
                         style: TextStyle(fontSize: 15, color: Colors.grey.shade400),
                       ),
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            final player = AudioPlayer();
+                            await player.play(AssetSource('Audio/sound.mp3'));
                             context.route.navigateToPage(const SignInPage());
                           },
                           child: const Text(
