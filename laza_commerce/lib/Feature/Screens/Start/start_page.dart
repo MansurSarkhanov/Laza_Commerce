@@ -1,10 +1,11 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:laza_commerce/Feature/Animations/bounce_animation.dart';
 import 'package:laza_commerce/Feature/Screens/SignIn/signin_page.dart';
 import 'package:laza_commerce/Feature/Screens/SignUp/signup_page.dart';
 import 'package:laza_commerce/Product/Constants/Paths/image_path.dart';
+import 'package:laza_commerce/Product/Utility/Controllers/audio_conroller.dart';
+import 'package:laza_commerce/Product/Utility/Extension/sound_extension.dart';
 
 import '../../Components/Buttons/auth_button.dart';
 
@@ -54,8 +55,9 @@ class _StartPageState extends State<StartPage> {
                       ),
                       TextButton(
                           onPressed: () async {
-                            final player = AudioPlayer();
-                            await player.play(AssetSource('Audio/sound.mp3'));
+                            final audio = AudioControllers();
+                            await audio.playSound(path: SoundPath.sound.toPathMp3());
+
                             context.route.navigateToPage(const SignInPage());
                           },
                           child: const Text(
